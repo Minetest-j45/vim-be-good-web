@@ -57,12 +57,20 @@ input.onkeypress = function(e) {
         }
     } else if (e.key == "j") {
         if (reallen-cursorPos > cols) {
-            cursorPos += cols+2;
+            if (cursorPos < cols) {
+                cursorPos += cols+1;
+            } else {
+                cursorPos += cols+2;
+            }
         }
 
     } else if (e.key == "k") {
         if (cursorPos > cols) {
-            cursorPos -= cols+2;
+            if ((2*cols)+2 > cursorPos) {
+                cursorPos -= cols+1;
+            } else {
+                cursorPos -= cols+2;
+            }
         }
     }
 
