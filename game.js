@@ -8,6 +8,7 @@ var s = solid.innerHTML;
 var rows = textarea.rows;
 var cols = textarea.cols;
 var length = rows*cols; 
+var reallen = rows*cols;
 
 var currentX;
 var cursorPos = 0;
@@ -22,9 +23,10 @@ function createRandomMap() {
     var map = "";
     for (let i = 0; i < length; i++) {
         if (i%cols == 0 && i != 0) {
-            map += "\n "
+            map += "\n ";
+            reallen += 2;
         }
-        map += " "
+        map += " ";
     }
     var xPos = Math.floor(Math.random() * length);
     currentX = xPos;
@@ -46,24 +48,27 @@ function createMap() {
 input.onkeypress = function(e) {
     console.log(cols);
     if (e.key == "h") {
-        if (cursorPos%(cols+2) != cols) {
+        if (cursorPos%(cols+2) != cols && cursorPos != 0) {
             cursorPos -= 1;
         } 
     } else if (e.key == "l") {
-        if (cursorPos%(cols+2) != 49) {
+        if (cursorPos%(cols+2) != cols-1 && cursorPos != reallen-2) {
             cursorPos += 1;
         }
     } else if (e.key == "j") {
+        if (reallen-cursorPos > cols) {
             cursorPos += cols+2;
+        }
 
     } else if (e.key == "k") {
-            cursorPos -= cols+2; 
+        if (cursorPos > cols) {
+            cursorPos -= cols+2;
+        }
     }
     if (cursorPos == currentX) {
         console.log("you won");
         textarea.value = createRandomMap();
     }
-    console.log(cursorPos%(cols+2))
-    console.log("X:" + currentX);
+    console.log("pos " + cursorPos + " X " + currentX, " len " + reallen);
     textarea.value = createMap();
 }
