@@ -30,23 +30,23 @@ function createRandomMap() {
     }
     var xPos = Math.floor(Math.random() * length);
     currentX = xPos;
+
     return addAt(addAt(map, "X", xPos), s, 0);
 }
 
 function createMap() {
-    var map = ""
+    var map = "";
     for (let i = 0; i < length; i++) {
         if (i%cols == 0 && i != 0) {
-            map += "\n "
+            map += "\n ";
         }
-        map += " "
+        map += " ";
     }
-    map = addAt(addAt(map, "X", currentX), s, cursorPos);
-    return map;
+
+    return addAt(addAt(map, "X", currentX), s, cursorPos);
 }
 
 input.onkeypress = function(e) {
-    console.log(cols);
     if (e.key == "h") {
         if (cursorPos%(cols+2) != cols && cursorPos != 0) {
             cursorPos -= 1;
@@ -65,6 +65,7 @@ input.onkeypress = function(e) {
             cursorPos -= cols+2;
         }
     }
+
     if (cursorPos == currentX) {
         console.log("you won");
         textarea.value = createRandomMap();
