@@ -52,11 +52,11 @@ input.onkeypress = function(e) {
             cursorPos -= 1;
         } 
     } else if (e.key == "l") {
-        if (cursorPos%(cols+2) != cols-1 && cursorPos != reallen-2) {
+        if (cursorPos%(cols+2) != cols-2 && cursorPos != reallen-2) {
             cursorPos += 1;
         }
     } else if (e.key == "j") {
-        if (reallen-cursorPos > cols) {
+        if (reallen-cursorPos > cols+2) {
             if (cursorPos < cols) {
                 cursorPos += cols+1;
             } else {
