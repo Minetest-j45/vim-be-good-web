@@ -95,7 +95,7 @@ function handleMove(key) {
 input.onkeypress = function(e) {
     handleMove(e.key)
     if (repeat) {
-        for (let i = 0; i <= repetitions; i++) {
+        for (let i = 0; i < repetitions-1; i++) {
             handleMove(e.key)
         }
     }
