@@ -12,6 +12,10 @@ var reallen = rows*cols;
 
 var currentX;
 var cursorPos = 0;
+var changed;
+
+var repetitions = 0;
+var repeat = false;
 
 textarea.value = createRandomMap();
 
@@ -46,38 +50,64 @@ function createMap() {
     return addAt(addAt(map, "X", currentX), s, cursorPos);
 }
 
+function handleMove(key) {
+        changed = false;
+        if (key == "h") {
+            if (cursorPos%(cols+2) != cols && cursorPos != 0) {
+                cursorPos -= 1;
+                changed = true;
+            }
+        } else if (key == "l") {
+            if (cursorPos%(cols+2) != cols-2 && cursorPos != reallen-2) {
+                cursorPos += 1;
+                changed = true;
+            }
+        } else if (key == "j") {
+            if (reallen-cursorPos > cols+2) {
+                if (cursorPos < cols) {
+                    cursorPos += cols+1;
+                } else {
+                    cursorPos += cols+2;
+                }
+                changed = true;
+            }
+
+        } else if (key == "k") {
+            if (cursorPos > cols) {
+                if ((2*cols)+2 > cursorPos) {
+                    cursorPos -= cols+1;
+                } else {
+                    cursorPos -= cols+2;
+                }
+                changed = true;
+            }
+        }
+
+        if (changed) {
+            if (cursorPos == currentX) {
+                console.log("you won");
+                textarea.value = createRandomMap();
+            }
+            console.log("pos " + cursorPos + " X " + currentX, " len " + reallen);
+        }
+}
+
 input.onkeypress = function(e) {
-    if (e.key == "h") {
-        if (cursorPos%(cols+2) != cols && cursorPos != 0) {
-            cursorPos -= 1;
-        } 
-    } else if (e.key == "l") {
-        if (cursorPos%(cols+2) != cols-2 && cursorPos != reallen-2) {
-            cursorPos += 1;
-        }
-    } else if (e.key == "j") {
-        if (reallen-cursorPos > cols+2) {
-            if (cursorPos < cols) {
-                cursorPos += cols+1;
-            } else {
-                cursorPos += cols+2;
-            }
-        }
-
-    } else if (e.key == "k") {
-        if (cursorPos > cols) {
-            if ((2*cols)+2 > cursorPos) {
-                cursorPos -= cols+1;
-            } else {
-                cursorPos -= cols+2;
-            }
+    handleMove(e.key)
+    if (repeat) {
+        for (let i = 0; i <= repetitions; i++) {
+            handleMove(e.key)
         }
     }
 
-    if (cursorPos == currentX) {
-        console.log("you won");
-        textarea.value = createRandomMap();
+    if (!isNaN(parseInt(e.key))) {
+        repeat = true;
+        repetitions = (repetitions*10) + parseInt(e.key);
+        console.log(repetitions)
+    } else {
+        repeat = false;
+        repetitions = 0;
     }
-    console.log("pos " + cursorPos + " X " + currentX, " len " + reallen);
+
     textarea.value = createMap();
 }
